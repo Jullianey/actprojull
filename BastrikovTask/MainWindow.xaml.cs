@@ -324,7 +324,7 @@ namespace BastrikovTask
         {
             if (BuildMatix())
             {
-                listboxResult.Items.Add(MainMatrix.getBranchClassicPlusSolutionString());
+                listboxResult.Items.Add(MainMatrix.getBCPlusSolutionString(0));
             }
         }
 
@@ -445,7 +445,11 @@ namespace BastrikovTask
                     Analysis.Start(sizeOfMatrix, countOfMatrix, generateMode, brute_force_method, branch_method, branch_plus_method));
             }
 
-            catch { MessageBox.Show("Неизвестная ошибка", "Ошибка"); }
+            catch(Exception ex) {
+                //  MessageBox.Show("Неизвестная ошибка", "Ошибка");
+
+                MessageBox.Show(ex.StackTrace);
+            }
         }
 
         private void CheckBox_Checked_1(object sender, RoutedEventArgs e)

@@ -99,3 +99,5 @@ C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\BastrikovTask.
 C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\BastrikovTask.csproj.CoreCompileInputs.cache
 C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\AnswerWindow.g.cs
 C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\AnswerWindow.baml
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\bin\Debug\ExcelLibrary.dll
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\BastrikovTask.csproj.CopyComplete

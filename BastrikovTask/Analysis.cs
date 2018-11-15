@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BastrikovTask.Analysys.DTO;
+using BastrikovTask.Analysys.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +27,14 @@ namespace BastrikovTask
         private static BruteForce bruteForce = new BruteForce();
         private static BranchClassic branchClassic = new BranchClassic();
         private static BranchClassicPlus branchClassicPlus = new BranchClassicPlus();
+        private static BCPlus bcPlus = new BCPlus();
+
 
         // Путь для каждого из методов
         static Dictionary<int, int> BruteForceWay;
         static Dictionary<int, int> BranchClassicWay;
         static Dictionary<int, int> BranchClassicPlusWay;
+
 
         // Время для каждого из методов
         static long BruteForceTime;
@@ -229,6 +234,14 @@ namespace BastrikovTask
                 Method();
 
                 analysis += "Совпало : " + odinakovih + ", лучше : " + luche + ", хуже : " + huge + "\n";
+
+                AnalysisDTO analysisDTO = new AnalysisDTO("Метод ветвей и границ", "Метод ветвей и границ PLUS"
+                    , TargetMatrixSize, CountOfMatrix, ListWithBranchClassicSum, ListWithBranchClassicPlusSum);
+
+                ExcelWriterReader<AnalysisDTO> excelWriter = new ExcelWriterReader<AnalysisDTO>();
+                excelWriter.WriteToFile(null, null, analysisDTO);
+
+                excelWriter.Test();
             }
 
             return analysis;
@@ -260,7 +273,7 @@ namespace BastrikovTask
 
         private static void BranchClassicPlusSolution()
         {
-            branchClassicPlus.Start(TargetMatrix, out BranchClassicPlusSum, out BranchClassicPlusWay, out BranchClassicPlusTime, true);
+            bcPlus.Start(TargetMatrix, out BranchClassicPlusSum, out BranchClassicPlusWay, out BranchClassicPlusTime, true);
         }
     }
 }

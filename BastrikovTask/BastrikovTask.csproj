@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelLibrary.1.2011.7.31\lib\ExcelLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -56,6 +59,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Analysys\DTO\AnalysisDTO.cs" />
+    <Compile Include="Analysys\Helpers\ExcelWriterReader.cs" />
+    <Compile Include="Analysys\Helpers\IWriterReader.cs" />
+    <Compile Include="NewGeneration\BCPlus.cs" />
+    <Compile Include="NewGeneration\Support\Support.cs" />
     <Compile Include="TestWorker.cs" />
     <Page Include="AnswerWindow.xaml">
       <SubType>Designer</SubType>
@@ -104,6 +112,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
