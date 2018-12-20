@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BastrikovTask.Analysys.TSTLang;
+using BastrikovTask.Methods.DTOs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +34,18 @@ namespace BastrikovTask.Analysys.DTO
             this.countOfMatrix = countOfMatrix;
             this.firstMethodAllMatrixSum = firstMethodAllMatrixSum;
             this.secondMethodAllMatrixSum = secondMethodAllMatrixSum;
+
+            CompareMethods();
+        }
+
+        // Think about refactoring...
+        public AnalysisDTO(TstLangCommand tstLangCommand, List<AnswerDTO> answersForFirstMethod, List<AnswerDTO> answersForSecondMethod) {
+            this.FirstMethodTitle = tstLangCommand.FirstMethod.ToString();
+            this.SecondMethodTitle = tstLangCommand.SecondMethod.ToString();
+            this.MatrixSize = tstLangCommand.SizeOfMatrix;
+            this.CountOfMatrix = tstLangCommand.CountOfMatrices;
+            this.FirstMethodAllMatrixSum = answersForFirstMethod.Select(x => x.Sum).ToList();
+            this.SecondMethodAllMatrixSum = answersForSecondMethod.Select(x => x.Sum).ToList();
 
             CompareMethods();
         }

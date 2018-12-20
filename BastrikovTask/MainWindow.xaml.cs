@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BastrikovTask.Methods;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -221,7 +222,8 @@ namespace BastrikovTask
             {
                 Debug.WriteLine("Тест BranchClassicTest - пройден");
             }
-            else {
+            else
+            {
                 Debug.WriteLine("Тест BranchClassicTest - не пройден");
             }
         }
@@ -314,7 +316,7 @@ namespace BastrikovTask
 
         private void btBranchAndBound_Click(object sender, RoutedEventArgs e)
         {
-            if (BuildMatix())
+            if (BuildMatix() != null)
             {
                 listboxResult.Items.Add(MainMatrix.getBranchClassicSolutionString(0));
             }
@@ -322,7 +324,7 @@ namespace BastrikovTask
 
         private void btBranchAndBoundPlus_Click(object sender, RoutedEventArgs e)
         {
-            if (BuildMatix())
+            if (BuildMatix() != null)
             {
                 listboxResult.Items.Add(MainMatrix.getBCPlusSolutionString(0));
             }
@@ -330,7 +332,7 @@ namespace BastrikovTask
 
         private void btBruteForce_Click(object sender, RoutedEventArgs e)
         {
-            if (BuildMatix())
+            if (BuildMatix() != null)
             {
                 listboxResult.Items.Add(MainMatrix.getBruteForceSolutionString());
             }
@@ -340,7 +342,7 @@ namespace BastrikovTask
 
         // добавить обработчик на кнопку, саму кнопку
 
-        private bool BuildMatix()
+        private int[,] BuildMatix()
         {
             int[,] matrix = new int[mode, mode];
 
@@ -364,13 +366,13 @@ namespace BastrikovTask
                     catch (Exception er)
                     {
                         MessageBox.Show("Ошибка в поле " + (i + 1) + ";" + (j + 1), "Ошибка");
-                        return false;
+                        return null;
                     }
                 }
             }
 
             MainMatrix.setTargetMatrix(matrix);
-            return true;
+            return matrix;
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -413,6 +415,7 @@ namespace BastrikovTask
                 bool brute_force_method = false;
                 bool branch_method = false;
                 bool branch_plus_method = false;
+                bool isBbSharpMethodEnabled = false;
 
                 try
                 {
@@ -430,9 +433,13 @@ namespace BastrikovTask
                 else
                     generateMode = Analysis.SYMMETRIC_MATRIX;
 
+                if ((bool)rbGenerateTestMatrix.IsChecked)
+                    generateMode = Analysis.TEST_MATRIX;
+
                 brute_force_method = (bool)cbBruteForceMode.IsChecked;
                 branch_method = (bool)cbBranchMode.IsChecked;
                 branch_plus_method = (bool)cbBranchPlus.IsChecked;
+                isBbSharpMethodEnabled = (bool)cbBbSharpEnabled.IsChecked;
 
                 if (sizeOfMatrix > 12 && brute_force_method)
                 {
@@ -442,10 +449,11 @@ namespace BastrikovTask
                 }
 
                 listboxResult.Items.Add(
-                    Analysis.Start(sizeOfMatrix, countOfMatrix, generateMode, brute_force_method, branch_method, branch_plus_method));
+                    Analysis.Start(sizeOfMatrix, countOfMatrix, generateMode, brute_force_method, branch_method, branch_plus_method, isBbSharpMethodEnabled));
             }
 
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 //  MessageBox.Show("Неизвестная ошибка", "Ошибка");
 
                 MessageBox.Show(ex.StackTrace);
@@ -459,14 +467,21 @@ namespace BastrikovTask
 
         private void btBrandAndOleg_Click(object sender, RoutedEventArgs e)
         {
-            if (BuildMatix())
-            {
-                string answer =
-                    BranchOleg.Start(MainMatrix.TargetMatrix, "Project1.exe");
+            int[,] matrix = BuildMatix();
+            string answer = "";
 
-                AnswerWindow answerWindow = new AnswerWindow(answer);
-                answerWindow.ShowDialog();
+            if (matrix != null)
+            {
+                answer = Matrix.GetSolutionByBranchSharpMethod(matrix, true);
             }
+
+            listboxResult.Items.Add(answer);
+        }
+
+        private void btTstTerminal_Click(object sender, RoutedEventArgs e)
+        {
+            TstLangTerminal tstLangTerminal = new TstLangTerminal();
+            tstLangTerminal.ShowDialog();
         }
     }
 }

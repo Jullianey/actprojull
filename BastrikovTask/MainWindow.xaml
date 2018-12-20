@@ -221,8 +221,8 @@
         <TextBox x:Name="tbSizeOfMatrix" HorizontalAlignment="Left" Height="23" Margin="926,53,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <TextBox x:Name="tbCountOfMatrix" HorizontalAlignment="Left" Height="23" Margin="926,84,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Button x:Name="btGetAnalysis" Content="Сравнительная харакеристика методов" HorizontalAlignment="Left" Margin="794,293,0,0" Grid.Row="1" VerticalAlignment="Top" Width="259" Click="btGetAnalysis_Click"/>
-        <RadioButton x:Name="rbGenerateRandomMx" Content="Случайная матрица" HorizontalAlignment="Left" Margin="825,138,0,0" Grid.Row="1" VerticalAlignment="Top" GroupName="Generate_mode" IsChecked="True"/>
-        <RadioButton x:Name="rbGenerateSemmetricMx" Content="Случайная семитричная матрица" HorizontalAlignment="Left" Margin="825,154,0,0" Grid.Row="1" VerticalAlignment="Top" GroupName="Generate_mode"/>
+        <RadioButton x:Name="rbGenerateRandomMx" Content="Случайная матрица" HorizontalAlignment="Left" Margin="825,134.2,0,0" Grid.Row="1" VerticalAlignment="Top" GroupName="Generate_mode" IsChecked="True"/>
+        <RadioButton x:Name="rbGenerateSemmetricMx" Content="Случайная семитричная матрица" HorizontalAlignment="Left" Margin="825,152.2,0,0" Grid.Row="1" VerticalAlignment="Top" GroupName="Generate_mode"/>
         <Separator HorizontalAlignment="Left" Height="6" Margin="782,327,0,0" VerticalAlignment="Top" Width="280"/>
         <Label Content="Для одной матрицы" HorizontalAlignment="Left" Margin="838,42,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
         <Separator HorizontalAlignment="Left" Height="2" Margin="782,40,0,0" VerticalAlignment="Top" Width="280"/>
@@ -247,11 +247,11 @@
             </Separator.RenderTransform>
         </Separator>
         <Separator HorizontalAlignment="Left" Height="6" Margin="782,14,0,0" VerticalAlignment="Top" Width="280" Grid.Row="1"/>
-        <Label Content="Методы решения задачи Коммивояжера" HorizontalAlignment="Left" Margin="809,185,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Методы решения задачи Коммивояжера" HorizontalAlignment="Left" Margin="809,184.2,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Label Content="Способ генерации матрицы :" HorizontalAlignment="Left" Margin="809,112,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <CheckBox x:Name="cbBruteForceMode" Content="Полный перебор" HorizontalAlignment="Left" Margin="825,216,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="CheckBox_Checked_1" />
-        <CheckBox x:Name="cbBranchPlus" Content="Метод ветвей и границ+" HorizontalAlignment="Left" Margin="825,258,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <CheckBox x:Name="cbBranchMode" Content="Метод ветвей и границ" HorizontalAlignment="Left" Margin="825,237,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox x:Name="cbBruteForceMode" Content="Полный перебор" HorizontalAlignment="Left" Margin="825,212.2,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="CheckBox_Checked_1" />
+        <CheckBox x:Name="cbBranchPlus" Content="Метод ветвей и границ+" HorizontalAlignment="Left" Margin="825,253.2,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <CheckBox x:Name="cbBranchMode" Content="Метод ветвей и границ" HorizontalAlignment="Left" Margin="825,233.2,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="True"/>
         <Separator HorizontalAlignment="Left" Height="6" Margin="782,315,0,0" VerticalAlignment="Top" Width="280" Grid.Row="1"/>
         <Separator HorizontalAlignment="Left" Height="8" Margin="911,163,-119,0" VerticalAlignment="Top" Width="302" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
             <Separator.RenderTransform>
@@ -274,6 +274,9 @@
             </Separator.RenderTransform>
         </Separator>
         <Button x:Name="btBrandAndOleg" Content="Метод с обьединением" HorizontalAlignment="Left" Margin="791,297,0,0" VerticalAlignment="Top" Width="260" Click="btBrandAndOleg_Click"/>
+        <CheckBox x:Name="cbBbSharpEnabled" Content="Метод ветвей и границ #" HorizontalAlignment="Left" Margin="825,273.2,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <RadioButton x:Name="rbGenerateTestMatrix" Content="Генерация тестовой матрицы" HorizontalAlignment="Left" Margin="825,169.2,0,0" Grid.Row="1" VerticalAlignment="Top" GroupName="Generate_mode"/>
+        <Button Name="btTstTerminal" Content="TST Terminal" HorizontalAlignment="Left" Margin="687,293.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btTstTerminal_Click"/>
 
     </Grid>
 </Window>

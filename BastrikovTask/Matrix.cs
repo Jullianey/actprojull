@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BastrikovTask.Methods;
+using BastrikovTask.Methods.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ namespace BastrikovTask
 {
     public class Matrix
     {
-         public int[,] TargetMatrix;
+        public int[,] TargetMatrix;
 
         // Классы для решения задачи Коммивояжера
         private static BruteForce bruteForce = new BruteForce();
@@ -43,9 +45,11 @@ namespace BastrikovTask
 
         public Matrix() { }
 
-        public void setTargetMatrix(int[,] _some_matrix)
+        public int[,] setTargetMatrix(int[,] _some_matrix)
         {
             TargetMatrix = _some_matrix;
+
+            return TargetMatrix.Clone() as int [,];
         }
 
         private void BruteForceSolution()
@@ -53,17 +57,19 @@ namespace BastrikovTask
             bruteForce.BruteForceStart(TargetMatrix, 0, out BruteForceSum, out BruteForceWay, out BruteForceTime);
         }
 
-        private void BranchClassicSolution() {
+        private void BranchClassicSolution()
+        {
             branchClassic.Start(TargetMatrix, out BranchClassicSum, out BranchClassicWay, out BranchClassicTime, true);
         }
 
-        private void BranchClassicPlusSolution() {
+        private void BranchClassicPlusSolution()
+        {
             branchClassicPlus.Start(TargetMatrix, out BranchClassicPlusSum, out BranchClassicPlusWay, out BranchClassicPlusTime, true);
         }
 
         private void BranchOlegSolution()
         {
-          //  branchOleg.StartBranchBuild();
+            //  branchOleg.StartBranchBuild();
         }
 
         private void BCPlusSolution()
@@ -96,10 +102,11 @@ namespace BastrikovTask
 
             if (mode == 0)
             {
-                 solution = "Метод ветвей и границ для матрицы " + TargetMatrix.GetLength(0) + "x" + TargetMatrix.GetLength(0) +
-                    " ,путь : ";
+                solution = "Метод ветвей и границ для матрицы " + TargetMatrix.GetLength(0) + "x" + TargetMatrix.GetLength(0) +
+                   " ,путь : ";
             }
-            else {
+            else
+            {
                 solution = "Метод с объеденением " + TargetMatrix.GetLength(0) + "x" + TargetMatrix.GetLength(0) +
                    " ,путь : ";
             }
@@ -112,7 +119,7 @@ namespace BastrikovTask
 
             solution += " сумма расстояний : " + BranchClassicSum;
             solution += ", время работы алгоритма : " + BranchClassicTime + "ms. .";
-            
+
             return solution;
         }
 
@@ -162,5 +169,20 @@ namespace BastrikovTask
             return solution;
         }
 
+        public static string GetSolutionByBranchSharpMethod(int[,] matrix, bool isSort)
+        {
+            string answerString = "";
+            AnswerDTO answerDTO = null;
+
+            if (matrix != null)
+                answerDTO = BaBSharp.Start(matrix, isSort);
+            else
+                return "Matrix is null...";
+
+            if (answerDTO != null)
+                return answerDTO.ToString();
+            else
+                return "AnswerDTO is null...";
+        }
     }
 }

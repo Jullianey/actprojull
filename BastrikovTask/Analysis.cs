@@ -1,7 +1,11 @@
 ﻿using BastrikovTask.Analysys.DTO;
 using BastrikovTask.Analysys.Helpers;
+using BastrikovTask.Methods;
+using BastrikovTask.Methods.DTOs;
+using MatrixGenerator.Generators;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +13,10 @@ namespace BastrikovTask
 {
     static class Analysis
     {
+        public static string BranchAndBounceClassicTitle = "Метод ветвей и границ";
+        public static string BranchAndBounceSharpTitle = "Метод ветвей и границ SHARP";
+
+
         const int INF = Int32.MaxValue;
 
         private static Random random = new Random();
@@ -17,6 +25,7 @@ namespace BastrikovTask
 
         public const int RANDOM_MATRIX = 1;
         public const int SYMMETRIC_MATRIX = 2;
+        public const int TEST_MATRIX = 3; 
 
         private static int GENERATE_MODE;
 
@@ -34,12 +43,15 @@ namespace BastrikovTask
         static Dictionary<int, int> BruteForceWay;
         static Dictionary<int, int> BranchClassicWay;
         static Dictionary<int, int> BranchClassicPlusWay;
+        static Dictionary<int, int> BranchClassicSharpWay;
 
 
         // Время для каждого из методов
         static long BruteForceTime;
         static long BranchClassicTime;
         static long BranchClassicPlusTime;
+        static long BranchClassicSharpTime;
+
 
         // Сумма расстояний для каждого из методов
         static int BruteForceSum;
@@ -53,27 +65,35 @@ namespace BastrikovTask
         static bool BruteForceMethodEnable = false;
         static bool BranchMethodEnable = false;
         static bool BranchPlusMethodEnable = false;
+        static bool BcSharpMethodEnable = false;
 
         public static readonly List<Dictionary<int, int>> ListWithAllDictionaryBruteForceWays = new List<Dictionary<int, int>>();
         public static readonly List<Dictionary<int, int>> ListWithAllDictionaryBranchClassicWays = new List<Dictionary<int, int>>();
         public static readonly List<Dictionary<int, int>> ListWithAllDictionaryBranchClassicPlusWays = new List<Dictionary<int, int>>();
+        public static readonly List<Dictionary<int, int>> ListWithAllDictionaryBcSharpWays = new List<Dictionary<int, int>>();
+
 
         public static readonly List<long> ListWithAllBruteForceTime = new List<long>();
         public static readonly List<long> ListWithAllBranchClassicTime = new List<long>();
         public static readonly List<long> ListWithAllBranchClassicPlusTime = new List<long>();
+        public static readonly List<long> ListWithAllBcSharTime = new List<long>();
+
 
         public static readonly List<int> ListWithBruteForceSum = new List<int>();
         public static readonly List<int> ListWithBranchClassicSum = new List<int>();
         public static readonly List<int> ListWithBranchClassicPlusSum = new List<int>();
+        public static readonly List<int> ListWithAllSumsForBcSharpSolutions = new List<int>();
+
+        public static readonly MatrixGeneratorForTsp matrixGenerator = new MatrixGeneratorForTsp();
+
 
         private static int odinakovih = 0;
         private static int luche = 0;
         private static int huge = 0;
 
         public static String Start(int matrix_size, int matrix_count, int generation_mode,
-            bool brute_method, bool branch_method, bool branch_plus_method)
+            bool brute_method, bool branch_method, bool branch_plus_method, bool isBbSharpMethodEnabled)
         {
-
             ClearVariable();
 
             GENERATE_MODE = generation_mode;
@@ -81,6 +101,7 @@ namespace BastrikovTask
             BruteForceMethodEnable = brute_method;
             BranchMethodEnable = branch_method;
             BranchPlusMethodEnable = branch_plus_method;
+            BcSharpMethodEnable = isBbSharpMethodEnabled;
 
             TargetMatrixSize = matrix_size;
             CountOfMatrix = matrix_count;
@@ -96,6 +117,11 @@ namespace BastrikovTask
         private static void GenerateMatrix()
         {
             TargetMatrix = new int[TargetMatrixSize, TargetMatrixSize];
+
+            if (GENERATE_MODE == TEST_MATRIX) {
+                TargetMatrix = null; //MatrixGenerator.GenerateMatrixForTsp(TargetMatrixSize, 80, 100, 1, 10).Matrix;
+                return;
+            }
 
             for (int i = 0; i < TargetMatrixSize; i++)
             {
@@ -123,7 +149,6 @@ namespace BastrikovTask
                                 TargetMatrix[j, i] = temp;
                                 break;
                             }
-
                     }
                 }
             }
@@ -154,12 +179,22 @@ namespace BastrikovTask
                 ListWithAllBranchClassicPlusTime.Add(BranchClassicPlusTime);
                 ListWithBranchClassicPlusSum.Add(BranchClassicPlusSum);
             }
+
+            if (BcSharpMethodEnable) {
+                var answerDto = GetSolutionByBcSharp();
+
+                ListWithAllDictionaryBcSharpWays.Add(answerDto.Way);
+                ListWithAllBcSharTime.Add(answerDto.Time);
+                ListWithAllSumsForBcSharpSolutions.Add(answerDto.Sum);
+            }
         }
 
         private static void GetAllSolutionForAllMatrix()
         {
             for (int i = 0; i < CountOfMatrix; i++)
             {
+                Debug.WriteLine(String.Format("Matrix № {0}", (i + 1)));
+
                 GenerateMatrix();
                 // Тут я по глупости словил переполнение стека
                 GetAllSolutionForTargetMatrix();
@@ -213,9 +248,14 @@ namespace BastrikovTask
             }
         }
 
+        private static bool IsWriteToExcel { get; set; } = true;
+
         private static String BuildAnalysis()
         {
             String analysis = "";
+
+            ExcelWriterReader<AnalysisDTO> excelWriter = new ExcelWriterReader<AnalysisDTO>();
+            AnalysisDTO analysisDTO = null;
 
             analysis += "__________________________________________________________________________________________\n";
             analysis += "Размерность матриц : " + TargetMatrixSize + "*"+ TargetMatrixSize + ", Количество матриц : " + CountOfMatrix + "\n";
@@ -231,33 +271,24 @@ namespace BastrikovTask
 
             if (BranchPlusMethodEnable && BranchMethodEnable)
             {
-                Method();
-
                 analysis += "Совпало : " + odinakovih + ", лучше : " + luche + ", хуже : " + huge + "\n";
 
-                AnalysisDTO analysisDTO = new AnalysisDTO("Метод ветвей и границ", "Метод ветвей и границ PLUS"
+                 analysisDTO = new AnalysisDTO("Метод ветвей и границ", "Метод ветвей и границ PLUS"
                     , TargetMatrixSize, CountOfMatrix, ListWithBranchClassicSum, ListWithBranchClassicPlusSum);
+            }
 
-                ExcelWriterReader<AnalysisDTO> excelWriter = new ExcelWriterReader<AnalysisDTO>();
+            if (BranchMethodEnable && BcSharpMethodEnable) {
+                analysis = "";
+
+                analysisDTO = new AnalysisDTO(BranchAndBounceClassicTitle, BranchAndBounceSharpTitle
+                , TargetMatrixSize, CountOfMatrix, ListWithBranchClassicSum, ListWithAllSumsForBcSharpSolutions);
+            }
+
+            if (IsWriteToExcel && analysisDTO != null) {
                 excelWriter.WriteToFile(null, null, analysisDTO);
-
-                excelWriter.Test();
             }
 
             return analysis;
-        }
-
-        private static void Method()
-        {
-            for (int i = 0; i < ListWithBranchClassicSum.Count; i++)
-            {
-                if (ListWithBranchClassicSum.ElementAt(i) == ListWithBranchClassicPlusSum.ElementAt(i))
-                    ++odinakovih;
-                else if (ListWithBranchClassicSum.ElementAt(i) < ListWithBranchClassicPlusSum.ElementAt(i))
-                    ++huge;
-                else
-                    ++luche;
-            }
         }
 
         private static void BruteForceSolution()
@@ -273,7 +304,15 @@ namespace BastrikovTask
 
         private static void BranchClassicPlusSolution()
         {
-            bcPlus.Start(TargetMatrix, out BranchClassicPlusSum, out BranchClassicPlusWay, out BranchClassicPlusTime, true);
+            branchClassicPlus.Start(TargetMatrix, out BranchClassicPlusSum, out BranchClassicPlusWay, out BranchClassicPlusTime, true);
+            ;
+        }
+
+        private static AnswerDTO GetSolutionByBcSharp()
+        {
+            var answerDTO = BaBSharp.Start(TargetMatrix, true);
+
+            return answerDTO;
         }
     }
 }

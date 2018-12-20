@@ -64,7 +64,7 @@ namespace BastrikovTask.Analysys.Helpers
                 int i = 1;
                 do
                 {
-                    file = "C:\\Parsed_Data\\" + nameOfFile + i + ".xls";
+                    file = "C:\\Parsed_Data\\" + nameOfFile + "-" + i + ".xls";
                     ++i;
                 } while (File.Exists(file));
             }

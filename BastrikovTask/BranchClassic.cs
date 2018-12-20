@@ -151,11 +151,13 @@ namespace BastrikovTask
                 }
             }
 
+            /*
             Console.WriteLine("Новое: ");
             for (int i = 0; i < wayList.Count; i++)
             {
                 Debug.WriteLine(wayList[i].i + " " + wayList[i].j);
             }
+            */
         }
 
 
@@ -380,7 +382,7 @@ namespace BastrikovTask
                 }
             }
 
-            Debug.WriteLine("Выбранный элемент: " + zero_row_index + ", " + zero_column_index);
+           //  Debug.WriteLine("Выбранный элемент: " + zero_row_index + ", " + zero_column_index);
         }
 
         private int[] GetDiagonalElement(int i, int j) {
@@ -447,6 +449,7 @@ namespace BastrikovTask
                 }
             }
 
+            /*
             Console.WriteLine("Матрица сокращения: ");
             for (int k = 0; k < matrix.GetLength(0); k++)
             {
@@ -456,6 +459,7 @@ namespace BastrikovTask
                 }
                 Console.WriteLine();
             }
+            */
 
             // определить в какой город, из всех строк не закрыт поход
             bool[] ways = new bool[matrix.GetLength(0)];
@@ -1012,19 +1016,19 @@ namespace BastrikovTask
         {
             if (LeftBranchLimit <= RightBranchLimit)
             {
-                Debug.WriteLine("Выбрана левая ветка");
+              //  Debug.WriteLine("Выбрана левая ветка");
                 MainMatrix = matrix_left_branch.Clone() as int[,];
                 wayList.Add(new Node(zero_row_index + 1, zero_column_index + 1));
                 MainMatrixMinLimit = LeftBranchLimit;
             }
             else
             {
-                Debug.WriteLine("ВЫбрана правая ветка");
+              //  Debug.WriteLine("ВЫбрана правая ветка");
                 MainMatrix = matrix_right_branch.Clone() as int[,];
                 //   way_func.Add(zero_row_index + 1, zero_column_index + 1);
                 MainMatrixMinLimit = RightBranchLimit;
             }
-            ShowMatrixInLogs();
+            // ShowMatrixInLogs();
         }
         // "Обнуляем" переменные - РАБОТАЕТ
         private void ClearVariables()

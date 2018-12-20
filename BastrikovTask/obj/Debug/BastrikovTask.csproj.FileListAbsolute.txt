@@ -101,3 +101,8 @@ C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\AnswerWindow.g
 C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\AnswerWindow.baml
 C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\bin\Debug\ExcelLibrary.dll
 C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\BastrikovTask.csproj.CopyComplete
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\bin\Debug\MatrixGenerator.exe
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\bin\Debug\MatrixGenerator.pdb
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\bin\Debug\MatrixGenerator.exe.config
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\TstLangTerminal.g.cs
+C:\Work\Projects\Учеба\BastrikovTask\BastrikovTask\obj\Debug\TstLangTerminal.baml
